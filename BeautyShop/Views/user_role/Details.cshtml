@@ -1,0 +1,103 @@
+﻿@model BeautyShop.Models.user_role
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background: #ecf0f3;
+        }
+
+        .table-form {
+            display: flex;
+            justify-content: center;
+        }
+
+        .from_bx {
+            box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
+            border-radius: 15px;
+            padding: 10px 30px 30px 30px;
+            width: 100%;
+            margin: 25px;
+        }
+
+            .from_bx .input1 {
+                padding-left: 10px;
+                font-size: 18px;
+            }
+
+            .from_bx .input2 {
+                padding-left: 10px;
+                font-size: 18px;
+            }
+
+        .btn-custom {
+            width: 50%;
+            height: 40px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            background: #a06cd5;
+            color: #fff;
+            font-weight: 500;
+            font-size: 18px;
+            letter-spacing: 1.3px;
+            cursor: pointer;
+            box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
+            transition: .3s ease-in-out;
+        }
+
+            .btn-custom:hover {
+                background: #9163cb;
+                color: #fff;
+            }
+
+        .btn-custom1 {
+            width: 50%;
+            height: 40px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            background: #a06cd5;
+            color: #fff;
+            font-weight: 500;
+            font-size: 18px;
+            letter-spacing: 1.3px;
+            cursor: pointer;
+            box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
+            transition: .3s ease-in-out;
+            margin-top: 10px;
+        }
+
+            .btn-custom1:hover {
+                background: #9163cb;
+                color: #fff;
+            }
+
+        .save-changes {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="save-changes">
+        @Html.ActionLink("Обратно", "Index", null, new { @class = "btn btn-custom1" })
+    </div>
+    <div class="table-form">
+        <div class="from_bx">
+            <div style="display:flex; align-items:baseline">
+                <h6>РОЛЬ</h6>
+                <div class="input1">
+                    <div>
+                        @Html.DisplayFor(model => model.role_name)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="save-changes">
+        @Html.ActionLink(" Изменить", "Edit", null, new { id = Model.id_role }, new { @class = "btn btn-custom" })
+    </div>
+</body>
+</html>

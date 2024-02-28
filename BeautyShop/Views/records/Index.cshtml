@@ -1,0 +1,117 @@
+﻿@model IEnumerable<BeautyShop.Models.record>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background: #ecf0f3;
+            /*height: 100%;*/
+        }
+        table td, table th {
+            text-align: center;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .description-cell {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .btn-custom {
+            width: 50%;
+            height: 40px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            background: #a06cd5;
+            color: #fff;
+            font-weight: 500;
+            font-size: 18px;
+            letter-spacing: 1.3px;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
+            transition: .3s ease-in-out;
+        }
+        .btn-custom:hover {
+            background: #9163cb;
+            color: #fff;
+        }
+        .table-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+            margin-top: 30px;
+        }
+        .table_des {
+            width: 100%;
+            box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
+            border-radius: 15px;
+            padding: 40px 30px 30px 30px;
+        }
+        .add-role {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="add-role">
+        @Html.ActionLink("Добавить запись", "Create", null, new { @class = "btn btn-custom" })
+    </div>
+    <div class="table-form">
+        <div class="table_des" ">
+            <table class="table table-borderless text-gray mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">КЛИЕНТ</th>
+                        <th scope="col">МАСТЕР</th>
+                        <th scope="col">ДАТА ЗАПИСИ</th>
+                        <th scope="col">УСЛУГА</th>
+                        <th scope="col">АКЦИЯ</th>
+                        <th scope="col">СТОИМОСТЬ</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.user.fio)</td>
+                            <td>@Html.DisplayFor(modelItem => item.user1.fio)</td>
+                            <td>@Html.DisplayFor(modelItem => item.date_record)</td>
+                            <td>@Html.DisplayFor(modelItem => item.service_work.service_name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.sale.sale_name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.record_price)</td>
+                            <td>
+                                @Html.ActionLink("Изменить", "Edit", new { id = item.id_record }, new { data_toggle = "description" }) |
+                                @Html.ActionLink("Подробнее", "Details", new { id = item.id_record }, new { data_toggle = "description" }) |
+                                @Html.ActionLink("Удалить", "Delete", new { id = item.id_record })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function toggleDescription(link) {
+                var descriptionCell = $(link).closest('tr').find('.description-cell');
+                var fullDescription = descriptionCell.data('full-description');
+
+                if (descriptionCell.hasClass('expanded')) {
+                    descriptionCell.text(fullDescription).removeClass('expanded');
+                } else {
+                    descriptionCell.text(fullDescription).addClass('expanded');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

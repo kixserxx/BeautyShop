@@ -1,0 +1,435 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище BeautyDataModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="record">
+          <Key>
+            <PropertyRef Name="id_record" />
+          </Key>
+          <Property Name="id_record" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="client_id" Type="int" />
+          <Property Name="master_id" Type="int" />
+          <Property Name="date_record" Type="datetime" />
+          <Property Name="service_id" Type="int" />
+          <Property Name="sale_id" Type="int" />
+          <Property Name="record_price" Type="int" />
+        </EntityType>
+        <EntityType Name="sale">
+          <Key>
+            <PropertyRef Name="id_sale" />
+          </Key>
+          <Property Name="id_sale" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sale_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="sale_description" Type="nvarchar" MaxLength="200" />
+          <Property Name="sale_price" Type="int" />
+        </EntityType>
+        <EntityType Name="service_type">
+          <Key>
+            <PropertyRef Name="id_type" />
+          </Key>
+          <Property Name="id_type" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type_name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="service_work">
+          <Key>
+            <PropertyRef Name="id_service" />
+          </Key>
+          <Property Name="id_service" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type_id" Type="int" />
+          <Property Name="service_name" Type="nvarchar" MaxLength="60" />
+          <Property Name="service_price" Type="int" />
+        </EntityType>
+        <EntityType Name="user_role">
+          <Key>
+            <PropertyRef Name="id_role" />
+          </Key>
+          <Property Name="id_role" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="role_name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="img" Type="varbinary(max)" />
+          <Property Name="fio" Type="nvarchar" MaxLength="50" />
+          <Property Name="role_id" Type="int" />
+          <Property Name="user_phone" Type="varchar" MaxLength="18" />
+          <Property Name="user_email" Type="nvarchar" MaxLength="50" />
+          <Property Name="user_password" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK__record__client_i__412EB0B6">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="record" Type="Self.record" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="record">
+              <PropertyRef Name="client_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__record__master_i__4222D4EF">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="record" Type="Self.record" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="record">
+              <PropertyRef Name="master_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__record__sale_id__4316F928">
+          <End Role="sale" Type="Self.sale" Multiplicity="0..1" />
+          <End Role="record" Type="Self.record" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sale">
+              <PropertyRef Name="id_sale" />
+            </Principal>
+            <Dependent Role="record">
+              <PropertyRef Name="sale_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__record__service___403A8C7D">
+          <End Role="service_work" Type="Self.service_work" Multiplicity="0..1" />
+          <End Role="record" Type="Self.record" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="service_work">
+              <PropertyRef Name="id_service" />
+            </Principal>
+            <Dependent Role="record">
+              <PropertyRef Name="service_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__service_w__type___440B1D61">
+          <End Role="service_type" Type="Self.service_type" Multiplicity="0..1" />
+          <End Role="service_work" Type="Self.service_work" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="service_type">
+              <PropertyRef Name="id_type" />
+            </Principal>
+            <Dependent Role="service_work">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__users__role_id__44FF419A">
+          <End Role="user_role" Type="Self.user_role" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_role">
+              <PropertyRef Name="id_role" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище BeautyDataModelContainer">
+          <EntitySet Name="record" EntityType="Self.record" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sale" EntityType="Self.sale" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="service_type" EntityType="Self.service_type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="service_work" EntityType="Self.service_work" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_role" EntityType="Self.user_role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__record__client_i__412EB0B6" Association="Self.FK__record__client_i__412EB0B6">
+            <End Role="users" EntitySet="users" />
+            <End Role="record" EntitySet="record" />
+          </AssociationSet>
+          <AssociationSet Name="FK__record__master_i__4222D4EF" Association="Self.FK__record__master_i__4222D4EF">
+            <End Role="users" EntitySet="users" />
+            <End Role="record" EntitySet="record" />
+          </AssociationSet>
+          <AssociationSet Name="FK__record__sale_id__4316F928" Association="Self.FK__record__sale_id__4316F928">
+            <End Role="sale" EntitySet="sale" />
+            <End Role="record" EntitySet="record" />
+          </AssociationSet>
+          <AssociationSet Name="FK__record__service___403A8C7D" Association="Self.FK__record__service___403A8C7D">
+            <End Role="service_work" EntitySet="service_work" />
+            <End Role="record" EntitySet="record" />
+          </AssociationSet>
+          <AssociationSet Name="FK__service_w__type___440B1D61" Association="Self.FK__service_w__type___440B1D61">
+            <End Role="service_type" EntitySet="service_type" />
+            <End Role="service_work" EntitySet="service_work" />
+          </AssociationSet>
+          <AssociationSet Name="FK__users__role_id__44FF419A" Association="Self.FK__users__role_id__44FF419A">
+            <End Role="user_role" EntitySet="user_role" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BeautyDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="record">
+          <Key>
+            <PropertyRef Name="id_record" />
+          </Key>
+          <Property Name="id_record" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="client_id" Type="Int32" />
+          <Property Name="master_id" Type="Int32" />
+          <Property Name="date_record" Type="DateTime" Precision="3" />
+          <Property Name="service_id" Type="Int32" />
+          <Property Name="sale_id" Type="Int32" />
+          <Property Name="record_price" Type="Int32" />
+          <NavigationProperty Name="user" Relationship="Self.FK__record__client_i__412EB0B6" FromRole="record" ToRole="users" />
+          <NavigationProperty Name="user1" Relationship="Self.FK__record__master_i__4222D4EF" FromRole="record" ToRole="users" />
+          <NavigationProperty Name="sale" Relationship="Self.FK__record__sale_id__4316F928" FromRole="record" ToRole="sale" />
+          <NavigationProperty Name="service_work" Relationship="Self.FK__record__service___403A8C7D" FromRole="record" ToRole="service_work" />
+        </EntityType>
+        <EntityType Name="sale">
+          <Key>
+            <PropertyRef Name="id_sale" />
+          </Key>
+          <Property Name="id_sale" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sale_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="sale_description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="sale_price" Type="Int32" />
+          <NavigationProperty Name="records" Relationship="Self.FK__record__sale_id__4316F928" FromRole="sale" ToRole="record" />
+        </EntityType>
+        <EntityType Name="service_type">
+          <Key>
+            <PropertyRef Name="id_type" />
+          </Key>
+          <Property Name="id_type" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="service_work" Relationship="Self.FK__service_w__type___440B1D61" FromRole="service_type" ToRole="service_work" />
+        </EntityType>
+        <EntityType Name="service_work">
+          <Key>
+            <PropertyRef Name="id_service" />
+          </Key>
+          <Property Name="id_service" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type_id" Type="Int32" />
+          <Property Name="service_name" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="service_price" Type="Int32" />
+          <NavigationProperty Name="records" Relationship="Self.FK__record__service___403A8C7D" FromRole="service_work" ToRole="record" />
+          <NavigationProperty Name="service_type" Relationship="Self.FK__service_w__type___440B1D61" FromRole="service_work" ToRole="service_type" />
+        </EntityType>
+        <EntityType Name="user_role">
+          <Key>
+            <PropertyRef Name="id_role" />
+          </Key>
+          <Property Name="id_role" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="role_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="users" Relationship="Self.FK__users__role_id__44FF419A" FromRole="user_role" ToRole="users" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="img" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="fio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="role_id" Type="Int32" />
+          <Property Name="user_phone" Type="String" MaxLength="18" FixedLength="false" Unicode="false" />
+          <Property Name="user_email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="user_password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="records" Relationship="Self.FK__record__client_i__412EB0B6" FromRole="users" ToRole="record" />
+          <NavigationProperty Name="records1" Relationship="Self.FK__record__master_i__4222D4EF" FromRole="users" ToRole="record" />
+          <NavigationProperty Name="user_role" Relationship="Self.FK__users__role_id__44FF419A" FromRole="users" ToRole="user_role" />
+        </EntityType>
+        <Association Name="FK__record__client_i__412EB0B6">
+          <End Role="users" Type="Self.user" Multiplicity="0..1" />
+          <End Role="record" Type="Self.record" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="record">
+              <PropertyRef Name="client_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__record__master_i__4222D4EF">
+          <End Role="users" Type="Self.user" Multiplicity="0..1" />
+          <End Role="record" Type="Self.record" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="record">
+              <PropertyRef Name="master_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__record__sale_id__4316F928">
+          <End Role="sale" Type="Self.sale" Multiplicity="0..1" />
+          <End Role="record" Type="Self.record" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sale">
+              <PropertyRef Name="id_sale" />
+            </Principal>
+            <Dependent Role="record">
+              <PropertyRef Name="sale_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__record__service___403A8C7D">
+          <End Role="service_work" Type="Self.service_work" Multiplicity="0..1" />
+          <End Role="record" Type="Self.record" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="service_work">
+              <PropertyRef Name="id_service" />
+            </Principal>
+            <Dependent Role="record">
+              <PropertyRef Name="service_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__service_w__type___440B1D61">
+          <End Role="service_type" Type="Self.service_type" Multiplicity="0..1" />
+          <End Role="service_work" Type="Self.service_work" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="service_type">
+              <PropertyRef Name="id_type" />
+            </Principal>
+            <Dependent Role="service_work">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__users__role_id__44FF419A">
+          <End Role="user_role" Type="Self.user_role" Multiplicity="0..1" />
+          <End Role="users" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_role">
+              <PropertyRef Name="id_role" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BeautyDataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="records" EntityType="Self.record" />
+          <EntitySet Name="sales" EntityType="Self.sale" />
+          <EntitySet Name="service_type" EntityType="Self.service_type" />
+          <EntitySet Name="service_work" EntityType="Self.service_work" />
+          <EntitySet Name="user_role" EntityType="Self.user_role" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="FK__record__client_i__412EB0B6" Association="Self.FK__record__client_i__412EB0B6">
+            <End Role="users" EntitySet="users" />
+            <End Role="record" EntitySet="records" />
+          </AssociationSet>
+          <AssociationSet Name="FK__record__master_i__4222D4EF" Association="Self.FK__record__master_i__4222D4EF">
+            <End Role="users" EntitySet="users" />
+            <End Role="record" EntitySet="records" />
+          </AssociationSet>
+          <AssociationSet Name="FK__record__sale_id__4316F928" Association="Self.FK__record__sale_id__4316F928">
+            <End Role="sale" EntitySet="sales" />
+            <End Role="record" EntitySet="records" />
+          </AssociationSet>
+          <AssociationSet Name="FK__record__service___403A8C7D" Association="Self.FK__record__service___403A8C7D">
+            <End Role="service_work" EntitySet="service_work" />
+            <End Role="record" EntitySet="records" />
+          </AssociationSet>
+          <AssociationSet Name="FK__service_w__type___440B1D61" Association="Self.FK__service_w__type___440B1D61">
+            <End Role="service_type" EntitySet="service_type" />
+            <End Role="service_work" EntitySet="service_work" />
+          </AssociationSet>
+          <AssociationSet Name="FK__users__role_id__44FF419A" Association="Self.FK__users__role_id__44FF419A">
+            <End Role="user_role" EntitySet="user_role" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище BeautyDataModelContainer" CdmEntityContainer="BeautyDataEntities">
+          <EntitySetMapping Name="records">
+            <EntityTypeMapping TypeName="BeautyDataModel.record">
+              <MappingFragment StoreEntitySet="record">
+                <ScalarProperty Name="id_record" ColumnName="id_record" />
+                <ScalarProperty Name="client_id" ColumnName="client_id" />
+                <ScalarProperty Name="master_id" ColumnName="master_id" />
+                <ScalarProperty Name="date_record" ColumnName="date_record" />
+                <ScalarProperty Name="service_id" ColumnName="service_id" />
+                <ScalarProperty Name="sale_id" ColumnName="sale_id" />
+                <ScalarProperty Name="record_price" ColumnName="record_price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sales">
+            <EntityTypeMapping TypeName="BeautyDataModel.sale">
+              <MappingFragment StoreEntitySet="sale">
+                <ScalarProperty Name="id_sale" ColumnName="id_sale" />
+                <ScalarProperty Name="sale_name" ColumnName="sale_name" />
+                <ScalarProperty Name="sale_description" ColumnName="sale_description" />
+                <ScalarProperty Name="sale_price" ColumnName="sale_price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="service_type">
+            <EntityTypeMapping TypeName="BeautyDataModel.service_type">
+              <MappingFragment StoreEntitySet="service_type">
+                <ScalarProperty Name="id_type" ColumnName="id_type" />
+                <ScalarProperty Name="type_name" ColumnName="type_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="service_work">
+            <EntityTypeMapping TypeName="BeautyDataModel.service_work">
+              <MappingFragment StoreEntitySet="service_work">
+                <ScalarProperty Name="id_service" ColumnName="id_service" />
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+                <ScalarProperty Name="service_name" ColumnName="service_name" />
+                <ScalarProperty Name="service_price" ColumnName="service_price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_role">
+            <EntityTypeMapping TypeName="BeautyDataModel.user_role">
+              <MappingFragment StoreEntitySet="user_role">
+                <ScalarProperty Name="id_role" ColumnName="id_role" />
+                <ScalarProperty Name="role_name" ColumnName="role_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="BeautyDataModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+                <ScalarProperty Name="img" ColumnName="img" />
+                <ScalarProperty Name="fio" ColumnName="fio" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="user_phone" ColumnName="user_phone" />
+                <ScalarProperty Name="user_email" ColumnName="user_email" />
+                <ScalarProperty Name="user_password" ColumnName="user_password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

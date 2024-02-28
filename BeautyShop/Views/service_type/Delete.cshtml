@@ -1,0 +1,72 @@
+﻿@model BeautyShop.Models.service_type
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background: #ecf0f3;
+        }
+
+        .table-form {
+            display: flex;
+            justify-content: center;
+        }
+
+        .from_bx {
+            box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
+            border-radius: 15px;
+            padding: 10px 30px 30px 30px;
+            width: 50%;
+            margin: 25px;
+            text-align: center;
+        }
+
+        .btn-custom {
+            width: 50%;
+            height: 40px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            background: #a06cd5;
+            color: #fff;
+            font-weight: 500;
+            font-size: 18px;
+            letter-spacing: 1.3px;
+            cursor: pointer;
+            box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
+            transition: .3s ease-in-out;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn-custom + .btn-custom {
+            margin-left: 10px;
+        }
+
+        .btn-custom:hover {
+            background: #9163cb;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="table-form">
+        <div class="from_bx">
+            <h3 style="font-size:24px">Уверены, что хотите удалить запись?</h3>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="btn-container">
+                    <input type="submit" value="Удалить" class="btn btn-custom" />
+                    @Html.ActionLink("Обратно", "Index", null, new { @class = "btn btn-custom" })
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,110 @@
+﻿@model IEnumerable<BeautyShop.Models.user_role>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body{
+            background: #ecf0f3;
+            /*height: 100%;*/
+        }
+        table td, table th {
+            text-align: center;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .description-cell {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .btn-custom {
+            width: 50%;
+            height: 40px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            background: #a06cd5;
+            color: #fff;
+            font-weight: 500;
+            font-size: 18px;
+            letter-spacing: 1.3px;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
+            transition: .3s ease-in-out;
+        }
+        .btn-custom:hover {
+            background: #9163cb;
+            color: #fff;
+        }
+        .table-form {
+           display: flex;
+           justify-content: center;
+           align-items:center;
+           height:auto;
+           margin-top:30px;
+        }
+        .table_des {
+            width: 60%;
+            box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
+            border-radius: 15px;
+            padding: 10px 30px 30px 30px;
+        }
+        .add-role{
+            display:flex;
+            justify-content:center;
+        }
+    </style>
+</head>
+<body>
+    <div class="add-role">
+        @Html.ActionLink("Добавить роль", "Create", null, new { @class = "btn btn-custom" })
+    </div>
+    <div class="table-form">
+        <div class="table_des" ">
+            <table class="table table-borderless text-gray mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">РОЛЬ</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.role_name)</td>
+                            <td>
+                                @Html.ActionLink("Изменить", "Edit", new { id = item.id_role }, new { data_toggle = "description" }) |
+                                @Html.ActionLink("Подробнее", "Details", new { id = item.id_role }, new { data_toggle = "description" }) |
+                                @Html.ActionLink("Удалить", "Delete", new { id = item.id_role })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            function toggleDescription(link) {
+                var descriptionCell = $(link).closest('tr').find('.description-cell');
+                var fullDescription = descriptionCell.data('full-description');
+
+                if (descriptionCell.hasClass('expanded')) {
+                    descriptionCell.text(fullDescription).removeClass('expanded');
+                } else {
+                    descriptionCell.text(fullDescription).addClass('expanded');
+                }
+            }
+            $('a[data-toggle="description"]').click(function (e) {
+                e.preventDefault();
+                toggleDescription(this);
+            });
+        });
+    </script>
+</body>
+</html>

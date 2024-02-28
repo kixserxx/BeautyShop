@@ -1,0 +1,60 @@
+﻿@model BeautyShop.Models.record
+
+<h3>Уверены, что хотите удалить запись?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Клиент
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.user.fio)
+        </dd>
+
+        <dt>
+            Мастер
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.user1.fio)
+        </dd>
+
+        <dt>
+            Дата записи
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.date_record)
+        </dd>
+
+        <dt>
+            Услуга
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.service_work.service_name)
+        </dd>
+
+        <dt>
+            Акция
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.sale.sale_name)
+        </dd>
+
+        <dt>
+            Цена
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.record_price)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" /> |
+            @Html.ActionLink("Обратно", "Index")
+        </div>
+    }
+</div>

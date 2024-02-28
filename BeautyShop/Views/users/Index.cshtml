@@ -1,0 +1,197 @@
+﻿@model IEnumerable<BeautyShop.Models.user>
+
+@{
+    ViewBag.Title = "Index";
+    bool ascending = ViewData["SortOrder"] == null || ViewData["SortOrder"].ToString() == "asc";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background: #ecf0f3;
+            /*height: 100%;*/
+        }
+
+        table td, table th {
+            text-align: center;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .description-cell {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .btn-custom {
+            width: 50%;
+            height: 40px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            background: #a06cd5;
+            color: #fff;
+            font-weight: 500;
+            font-size: 18px;
+            letter-spacing: 1.3px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
+            transition: .3s ease-in-out;
+        }
+
+            .btn-custom:hover {
+                background: #9163cb;
+                color: #fff;
+            }
+
+        .btn-custom1 {
+            width: 20%;
+            height: 40px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            background: #a06cd5;
+            color: #fff;
+            font-weight: 500;
+            font-size: 18px;
+            letter-spacing: 1.3px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
+            transition: .3s ease-in-out;
+            margin-left:10px;
+        }
+
+            .btn-custom1:hover {
+                background: #9163cb;
+                color: #fff;
+            }
+
+        .table-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+            margin-top: 30px;
+        }
+
+        .table_des {
+            box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
+            border-radius: 15px;
+            padding: 10px 30px 30px 30px;
+        }
+
+        .add-role {
+            display: flex;
+            justify-content: center;
+        }
+        .input1 {
+            padding: 5px 10px;
+            box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px #fff;
+            border-radius: 20px;
+            margin-top: 20px;
+            z-index: 1;
+            width: 30%;
+            height: 50px;
+        }
+
+            .input1 input {
+                width: 80%;
+                margin-left: 10px;
+                padding: 10px 0px;
+                border: none;
+                outline: none;
+                background: none;
+                font-size: 18px;
+            }
+    </style>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        <div style="display:flex; align-items:center">
+            <div class="input1">
+                @Html.TextBox("SearchString", null, new { @class = "input-rounded" })
+            </div>
+            <input type="submit" value="Поиск" class="btn btn-custom1" />`
+        </div>
+        
+    }
+    <div class="add-role">
+        @Html.ActionLink("Добавить пользователя", "Create", null, new { @class = "btn btn-custom" })
+    </div>
+    <div class="table-form">
+        <div class="table_des">
+            <table class="table table-borderless text-gray mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">ИЗОБРАЖЕНИЕ</th>
+                        <th scope="col">@Html.ActionLink("ФИО", "Index", new { sortOrder = (ascending ? "desc" : "asc"), sortColumn = "fio" }, new { @style = "color: black;" })</th>
+                        <th scope="col">@Html.ActionLink("РОЛЬ", "Index", new { sortOrder = (ascending ? "desc" : "asc"), sortColumn = "user_role" }, new { @style = "color: black;" })</th>
+                        <th>НОМЕР ТЕЛЕФОНА</th>
+                        <th>@Html.ActionLink("EMAIL", "Index", new { sortOrder = (ascending ? "desc" : "asc"), sortColumn = "user_email" }, new { @style = "color: black;" })</th>
+                        <th>ПАРОЛЬ</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @{
+                                    byte[] photo = item.img;
+                                    string imageSrc = null;
+                                    if (photo != null)
+                                    {
+                                        MemoryStream ms = new MemoryStream();
+                                        ms.Write(photo, 0, photo.Length);
+                                        string imageBase64 = Convert.ToBase64String(ms.ToArray());
+                                        imageSrc = string.Format("data:image/jpg;base64,{0}", imageBase64);
+                                        string base64String = Convert.ToBase64String(photo, 0, photo.Length);
+                                    }
+                                }
+                                @if (imageSrc != null)
+                                {
+                                    <img src="@imageSrc" alt="Изображение" width="150" height="100" style="border: 1px solid #d6ccc2;" />
+                                }
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.fio)</td>
+                            <td>@Html.DisplayFor(modelItem => item.user_role.role_name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.user_phone)</td>
+                            <td>@Html.DisplayFor(modelItem => item.user_email)</td>
+                            <td>@Html.DisplayFor(modelItem => item.user_password)</td>
+                            <td>
+                                @Html.ActionLink("Изменить", "Edit", new { id = item.id_user }, new { data_toggle = "description" }) |
+                                @Html.ActionLink("Подробнее", "Details", new { id = item.id_user }, new { data_toggle = "description" }) |
+                                @Html.ActionLink("Удалить", "Delete", new { id = item.id_user })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function toggleDescription(link) {
+                var descriptionCell = $(link).closest('tr').find('.description-cell');
+                var fullDescription = descriptionCell.data('full-description');
+
+                if (descriptionCell.hasClass('expanded')) {
+                    descriptionCell.text(fullDescription).removeClass('expanded');
+                } else {
+                    descriptionCell.text(fullDescription).addClass('expanded');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
